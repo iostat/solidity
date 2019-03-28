@@ -23,7 +23,7 @@ defaults:
         mkdir -p build
         cd build
         [ -n "$COVERAGE" -a "$CIRCLE_BRANCH" != release -a -z "$CIRCLE_TAG" ] && CMAKE_OPTIONS="$CMAKE_OPTIONS -DCOVERAGE=ON"
-        /src/LPM/external.protobuf/bin/protoc --proto_path=../test/tools/ossfuzz yulProto.proto --cpp_out=../solidity/test/tools/ossfuzz
+        /src/LPM/external.protobuf/bin/protoc --proto_path=../test/tools/ossfuzz yulProto.proto --cpp_out=../test/tools/ossfuzz
         cmake .. -DCMAKE_BUILD_TYPE=Release -DOSSFUZZ=ON $CMAKE_OPTIONS
         make ossfuzz ossfuzz_proto -j4
   - run_tests: &run_tests
