@@ -25,8 +25,7 @@ defaults:
         rm -rf *
         [ -n "$COVERAGE" -a "$CIRCLE_BRANCH" != release -a -z "$CIRCLE_TAG" ] && CMAKE_OPTIONS="$CMAKE_OPTIONS -DCOVERAGE=ON"
         /src/LPM/external.protobuf/bin/protoc --proto_path=../test/tools/ossfuzz yulProto.proto --cpp_out=../test/tools/ossfuzz
-        CXXFLAGS="-O1 -fno-omit-frame-pointer -gline-tables-only -DFUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION -fsanitize=address -fsanitize-address-use-after-scope -fsanitize=fuzzer-no-link -stdlib=stdc++"
-        cmake .. -DCMAKE_BUILD_TYPE=Release -DOSSFUZZ=ON $CMAKE_OPTIONS
+        cmake .. -DCMAKE_BUILD_TYPE=Release $CMAKE_OPTIONS
         make ossfuzz ossfuzz_proto -j4
   - run_tests: &run_tests
       name: Tests
@@ -399,6 +398,7 @@ jobs:
       TERM: xterm
       CC: /usr/bin/clang-7
       CXX: /usr/bin/clang++-7
+      CMAKE_OPTIONS: -DOSSFUZZ=ON -DSANITIZE=address -DCMAKE_CXX_FLAGS="-O1 -gline-tables-only -DFUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION -fsanitize-address-use-after-scope -fsanitize=fuzzer-no-link -stdlib=libstdc++"
     steps:
       - checkout
       - run:
