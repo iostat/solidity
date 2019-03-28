@@ -23,10 +23,9 @@ defaults:
         mkdir -p build
         cd build
         rm -rf *
-        ls /usr/lib
         [ -n "$COVERAGE" -a "$CIRCLE_BRANCH" != release -a -z "$CIRCLE_TAG" ] && CMAKE_OPTIONS="$CMAKE_OPTIONS -DCOVERAGE=ON"
         /src/LPM/external.protobuf/bin/protoc --proto_path=../test/tools/ossfuzz yulProto.proto --cpp_out=../test/tools/ossfuzz
-        CXXFLAGS="-O1 -fno-omit-frame-pointer -gline-tables-only -DFUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION -fsanitize=address -fsanitize-address-use-after-scope -fsanitize=fuzzer-no-link -stdlib=libc++ -I/usr/include/c++/v1 -L/usr/lib/x86_64-linux-gnu"
+        CXXFLAGS="-O1 -fno-omit-frame-pointer -gline-tables-only -DFUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION -fsanitize=address -fsanitize-address-use-after-scope -fsanitize=fuzzer-no-link -stdlib=stdc++"
         cmake .. -DCMAKE_BUILD_TYPE=Release -DOSSFUZZ=ON $CMAKE_OPTIONS
         make ossfuzz ossfuzz_proto -j4
   - run_tests: &run_tests
@@ -406,7 +405,7 @@ jobs:
           name: Install build dependencies
           command: |
             apt-get -qq update
-            apt-get -qy install clang-7 libc++-dev libc++abi-dev cmake libboost-regex-dev libboost-filesystem-dev libboost-test-dev libboost-system-dev libboost-program-options-dev libcvc4-dev libbz2-dev ninja-build zlib1g-dev
+            apt-get -qy install clang-7 cmake libboost-regex-dev libboost-filesystem-dev libboost-test-dev libboost-system-dev libboost-program-options-dev libcvc4-dev libbz2-dev ninja-build zlib1g-dev
             ./scripts/install_obsolete_jsoncpp_1_7_4.sh
             ./scripts/install_lpm.sh
             ./scripts/install_libfuzzer.sh
