@@ -402,7 +402,7 @@ jobs:
           name: Install build dependencies
           command: |
             apt-get -qq update
-            apt-get -qy install clang-7 cmake libboost-regex-dev libboost-filesystem-dev libboost-test-dev libboost-system-dev libboost-program-options-dev libcvc4-dev libbz2-dev ninja-build zlib1g-dev
+            apt-get -qy install clang-7 libc++-dev cmake libboost-regex-dev libboost-filesystem-dev libboost-test-dev libboost-system-dev libboost-program-options-dev libcvc4-dev libbz2-dev ninja-build zlib1g-dev
             ./scripts/install_obsolete_jsoncpp_1_7_4.sh
             ./scripts/install_lpm.sh
             ./scripts/install_libfuzzer.sh
