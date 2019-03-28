@@ -398,7 +398,7 @@ jobs:
       TERM: xterm
       CC: /usr/bin/clang-7
       CXX: /usr/bin/clang++-7
-      CMAKE_OPTIONS: -DOSSFUZZ=ON -DSANITIZE=address -DCMAKE_CXX_FLAGS="-O1 -gline-tables-only -DFUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION -fsanitize-address-use-after-scope -fsanitize=fuzzer-no-link -stdlib=libstdc++"
+      CMAKE_OPTIONS: -DOSSFUZZ=ON -DSANITIZE=address -DCMAKE_CXX_FLAGS="-O1 -gline-tables-only -fsanitize-address-use-after-scope -fsanitize=fuzzer-no-link -stdlib=libstdc++"
     steps:
       - checkout
       - run:
