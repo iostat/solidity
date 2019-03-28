@@ -23,6 +23,7 @@ defaults:
         mkdir -p build
         cd build
         rm -rf *
+        ls /usr/lib
         [ -n "$COVERAGE" -a "$CIRCLE_BRANCH" != release -a -z "$CIRCLE_TAG" ] && CMAKE_OPTIONS="$CMAKE_OPTIONS -DCOVERAGE=ON"
         /src/LPM/external.protobuf/bin/protoc --proto_path=../test/tools/ossfuzz yulProto.proto --cpp_out=../test/tools/ossfuzz
         CXXFLAGS="-O1 -fno-omit-frame-pointer -gline-tables-only -DFUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION -fsanitize=address -fsanitize-address-use-after-scope -fsanitize=fuzzer-no-link -stdlib=libc++ -I/usr/include/c++/v1 -L/usr/lib/x86_64-linux-gnu"
