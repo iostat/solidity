@@ -391,17 +391,18 @@ jobs:
 
   build_x86_linux_ossfuzz:
     docker:
-      - image: buildpack-deps:bionic
+      - image: buildpack-deps:cosmic
     environment:
       TERM: xterm
-      COVERAGE: "ON"
+      CC: /usr/bin/clang-7
+      CXX: /usr/bin/clang++-7
     steps:
       - checkout
       - run:
           name: Install build dependencies
           command: |
             apt-get -qq update
-            apt-get -qy install cmake libboost-regex-dev libboost-filesystem-dev libboost-test-dev libboost-system-dev libboost-program-options-dev libcvc4-dev libbz2-dev ninja-build zlib1g-dev
+            apt-get -qy install clang-7 cmake libboost-regex-dev libboost-filesystem-dev libboost-test-dev libboost-system-dev libboost-program-options-dev libcvc4-dev libbz2-dev ninja-build zlib1g-dev
             ./scripts/install_obsolete_jsoncpp_1_7_4.sh
             ./scripts/install_lpm.sh
             ./scripts/install_libfuzzer.sh
@@ -448,3 +449,4 @@ workflows:
           <<: *build_on_tags
           requires:
             - build_x86_archlinux
+      - build_x86_linux_ossfuzz: *build_on_tags
